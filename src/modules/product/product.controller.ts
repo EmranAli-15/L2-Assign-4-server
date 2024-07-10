@@ -14,6 +14,19 @@ const createProduct = catchAsync(
     }
 );
 
+const searchProducts = catchAsync(
+    async (req, res) => {
+        const result = await productServices.searchProductsIntoDB(req.query);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Products fetched successfully",
+            data: result
+        });
+    }
+);
+
 const getAllProducts = catchAsync(
     async (req, res) => {
         const result = await productServices.getAllProductsFromDB();
@@ -44,5 +57,6 @@ const getSingleProduct = catchAsync(
 export const productControllers = {
     createProduct,
     getAllProducts,
-    getSingleProduct
+    getSingleProduct,
+    searchProducts
 };

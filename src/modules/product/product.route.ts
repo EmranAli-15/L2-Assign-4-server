@@ -11,5 +11,7 @@ route.get('/product', productControllers.getAllProducts);
 
 route.get('/product/:id', productControllers.getSingleProduct);
 
+route.get('/search-products', productControllers.searchProducts);
+
 
 export const productRoutes = route;

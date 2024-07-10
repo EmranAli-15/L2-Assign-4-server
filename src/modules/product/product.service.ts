@@ -15,6 +15,18 @@ const createProductIntoDB = async (payload: TProduct) => {
     return result;
 };
 
+const searchProductsIntoDB = async (query: Record<string, unknown>) => {
+    const searchItem = query.searchItem;
+    const result = await Product.find({
+        $or: [
+            { title: { $regex: searchItem, $options: "i" } },
+            { description: { $regex: searchItem, $options: "i" } }
+        ]
+    });
+
+    return result;
+};
+
 const getAllProductsFromDB = async () => {
     const result = await Product.find();
     return result;
@@ -23,10 +35,11 @@ const getAllProductsFromDB = async () => {
 const getSingleProductFromDB = async (id: string) => {
     const result = await Product.findById(id);
     return result;
-}
+};
 
 export const productServices = {
     createProductIntoDB,
     getAllProductsFromDB,
-    getSingleProductFromDB
+    getSingleProductFromDB,
+    searchProductsIntoDB
 };
