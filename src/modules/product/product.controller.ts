@@ -43,6 +43,21 @@ const getAllProducts = catchAsync(
     }
 );
 
+const getAllProductsByFiltering = catchAsync(
+    async (req, res) => {
+        const { amount } = req.query;
+
+        const result = await productServices.getProductsByFilteringFromDB(amount as string);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Products filtered successfully",
+            data: result
+        });
+    }
+);
+
 const getSingleProduct = catchAsync(
     async (req, res) => {
         const { id } = req.params;
@@ -89,6 +104,7 @@ const deleteProduct = catchAsync(
 export const productControllers = {
     createProduct,
     getAllProducts,
+    getAllProductsByFiltering,
     getSingleProduct,
     searchProducts,
     updateProduct,

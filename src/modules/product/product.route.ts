@@ -11,11 +11,12 @@ route.get('/product', productControllers.getAllProducts);
 
 route.get('/product/:id', productControllers.getSingleProduct);
 
-route.get('/search-products', productControllers.searchProducts);
+route.get('/product-filter', productControllers.getAllProductsByFiltering);
 
-route.delete('/product-delete/:id', productControllers.deleteProduct);
+route.get('/search-products', productControllers.searchProducts);
 
 route.patch('/product-update/:id', validateRequest(productValidations.updateProductValidation), productControllers.updateProduct);
 
+route.delete('/product-delete/:id', productControllers.deleteProduct);
 
 export const productRoutes = route;

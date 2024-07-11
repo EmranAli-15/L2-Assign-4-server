@@ -33,6 +33,19 @@ const getAllProductsFromDB = async (page: number) => {
     return result;
 };
 
+const getProductsByFilteringFromDB = async (amount: string) => {
+    let result;
+    if (amount === 'lessThenSixty') {
+        result = await Product.find({ price: { $lt: 60 } });
+    } else if (amount === 'moreThenSixty') {
+        result = await Product.find({ price: { $gt: 60 } });
+    } else {
+        result = await Product.find().limit(8);
+    };
+
+    return result;
+}
+
 const getSingleProductFromDB = async (id: string) => {
     const result = await Product.findById(id);
     return result;
@@ -51,6 +64,7 @@ const deleteProductFromDB = async (id: string) => {
 export const productServices = {
     createProductIntoDB,
     getAllProductsFromDB,
+    getProductsByFilteringFromDB,
     getSingleProductFromDB,
     searchProductsIntoDB,
     updateProductIntoDB,
