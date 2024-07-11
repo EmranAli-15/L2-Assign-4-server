@@ -13,5 +13,9 @@ route.get('/product/:id', productControllers.getSingleProduct);
 
 route.get('/search-products', productControllers.searchProducts);
 
+route.delete('/product-delete/:id', productControllers.deleteProduct);
+
+route.patch('/product-update/:id', validateRequest(productValidations.updateProductValidation), productControllers.updateProduct);
+
 
 export const productRoutes = route;

@@ -27,8 +27,9 @@ const searchProductsIntoDB = async (query: Record<string, unknown>) => {
     return result;
 };
 
-const getAllProductsFromDB = async () => {
-    const result = await Product.find();
+const getAllProductsFromDB = async (page: number) => {
+    const skip = (page - 1) * 8;
+    const result = await Product.find().skip(skip).limit(8);
     return result;
 };
 
@@ -37,9 +38,21 @@ const getSingleProductFromDB = async (id: string) => {
     return result;
 };
 
+const updateProductIntoDB = async (id: string, payload: TProduct) => {
+    const result = await Product.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+};
+
+const deleteProductFromDB = async (id: string) => {
+    const result = await Product.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    return result;
+}
+
 export const productServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
-    searchProductsIntoDB
+    searchProductsIntoDB,
+    updateProductIntoDB,
+    deleteProductFromDB
 };

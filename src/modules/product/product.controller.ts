@@ -29,7 +29,10 @@ const searchProducts = catchAsync(
 
 const getAllProducts = catchAsync(
     async (req, res) => {
-        const result = await productServices.getAllProductsFromDB();
+        const { page } = req.query;
+        const skipNum = parseInt(page as string);
+
+        const result = await productServices.getAllProductsFromDB(skipNum);
 
         res.status(200).json({
             success: true,
@@ -54,9 +57,40 @@ const getSingleProduct = catchAsync(
     }
 );
 
+const updateProduct = catchAsync(
+    async (req, res) => {
+        const { id } = req.params;
+        const payload = req.body;
+        const result = await productServices.updateProductIntoDB(id, payload);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Product updated successfully",
+            data: result
+        });
+    }
+);
+
+const deleteProduct = catchAsync(
+    async (req, res) => {
+        const { id } = req.params;
+        const result = await productServices.deleteProductFromDB(id);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Product deleted successfully",
+            data: result
+        });
+    }
+);
+
 export const productControllers = {
     createProduct,
     getAllProducts,
     getSingleProduct,
-    searchProducts
+    searchProducts,
+    updateProduct,
+    deleteProduct
 };
