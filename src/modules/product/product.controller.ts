@@ -101,6 +101,20 @@ const deleteProduct = catchAsync(
     }
 );
 
+const reduceQuantity = catchAsync(
+    async (req, res) => {
+        const { id, quantity } = req.body;
+        const result = await productServices.reduceQuantityFromDB(id, quantity);
+
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Product Sell successfully",
+            data: result
+        });
+    }
+);
+
 export const productControllers = {
     createProduct,
     getAllProducts,
@@ -108,5 +122,6 @@ export const productControllers = {
     getSingleProduct,
     searchProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    reduceQuantity
 };

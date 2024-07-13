@@ -35,10 +35,10 @@ const getAllProductsFromDB = async (page: number) => {
 
 const getProductsByFilteringFromDB = async (amount: string) => {
     let result;
-    if (amount === 'lessThenSixty') {
-        result = await Product.find({ price: { $lt: 60 } });
-    } else if (amount === 'moreThenSixty') {
-        result = await Product.find({ price: { $gt: 60 } });
+    if (amount === 'lessThenHundred') {
+        result = await Product.find({ price: { $lt: 100 } });
+    } else if (amount === 'moreThenHundred') {
+        result = await Product.find({ price: { $gt: 100 } });
     } else {
         result = await Product.find().limit(8);
     };
@@ -57,7 +57,21 @@ const updateProductIntoDB = async (id: string, payload: TProduct) => {
 };
 
 const deleteProductFromDB = async (id: string) => {
-    const result = await Product.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    const result = await Product.findByIdAndDelete(id);
+    return result;
+};
+
+const reduceQuantityFromDB = async (id: string, quantity: number) => {
+    const getData = await Product.findById(id);
+
+    const store = getData?.quantity;
+    const remain = store! - quantity;
+
+    if(remain < 0){
+        throw new AppError(400, 'Insufficient Quantity');
+    }
+
+    const result = await Product.findByIdAndUpdate(id, {quantity: remain}, {new: true});
     return result;
 }
 
@@ -68,5 +82,6 @@ export const productServices = {
     getSingleProductFromDB,
     searchProductsIntoDB,
     updateProductIntoDB,
-    deleteProductFromDB
+    deleteProductFromDB,
+    reduceQuantityFromDB
 };

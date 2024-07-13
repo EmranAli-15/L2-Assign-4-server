@@ -19,4 +19,6 @@ route.patch('/product-update/:id', validateRequest(productValidations.updateProd
 
 route.delete('/product-delete/:id', productControllers.deleteProduct);
 
+route.post('/product-buy', productControllers.reduceQuantity);
+
 export const productRoutes = route;

@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.productRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const product_validation_1 = require("./product.validation");
+const product_controller_1 = require("./product.controller");
+const route = express_1.default.Router();
+route.post('/product', (0, validateRequest_1.default)(product_validation_1.productValidations.createProductValidation), product_controller_1.productControllers.createProduct);
+route.get('/product', product_controller_1.productControllers.getAllProducts);
+route.get('/product/:id', product_controller_1.productControllers.getSingleProduct);
+route.get('/product-filter', product_controller_1.productControllers.getAllProductsByFiltering);
+route.get('/search-products', product_controller_1.productControllers.searchProducts);
+route.patch('/product-update/:id', (0, validateRequest_1.default)(product_validation_1.productValidations.updateProductValidation), product_controller_1.productControllers.updateProduct);
+route.delete('/product-delete/:id', product_controller_1.productControllers.deleteProduct);
+route.post('/product-buy', product_controller_1.productControllers.reduceQuantity);
+exports.productRoutes = route;
